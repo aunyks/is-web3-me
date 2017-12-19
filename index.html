@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <title>Is Web3 Me? - Discover Your Browser's Web3 Stats.</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="description" content="Discover Your Browser's Web3 Stats.">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@aunyks">
+        <meta name="twitter:title" content="Is Web3 Me?">
+        <meta name="twitter:description" content="Discover Your Browser's Web3 Stats.">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/bulma.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <style>
+            html, body {
+                height: 100%;
+                width: 100%;
+                font-family: 'Roboto', sans-serif !important;
+                text-align: left;
+                color: #363636;
+                background: #eee;
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow-y: scroll;
+                display: block;
+            }
+            .navbar-item {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+            #container {
+                padding: 5%;
+                height: 80%;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h1.super {
+                font-size: 3em;
+                text-align: center;
+                margin-top: 2.5%;
+            }
+            span {
+                font-weight: normal;
+            }
+            #acct-qr {
+                font-size: 1.5em;
+            }
+            p {
+                font-size: 1.5em;
+                margin-top: 1%;
+                margin-top: 1%;
+            }
+            .underline {
+                text-decoration: underline;
+            }
+            .bad {
+                color: #f66;
+            }
+            .good {
+                color: #ffa500;
+            }
+            .great {
+                color: #2b2;
+            }
+            .normal-size {
+                font-size: 0.7em;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <span class="navbar-item">
+                    IW3M
+                </span>
+            </div>
+        </nav>
+        <h1 class="super">Web 3.0 Status:<br><span id="web3-stat" class="bad">Bad</span></h1>
+        <div id="container">
+            <div class="columns">
+                <div class="column">
+                    <h1>Ethereum Status:<br><span id="eth-stat" class="bad">Not Connected</span></h1>
+                    <hr>
+                    <p>Web3 Enabled: <span id="web3-enabled" class="bad">False</span></p>
+                    <p>Web3 Provider: <span id="web3-prov" class="bad">None</span></p>
+                </div>
+                <div class="column">
+                    <h1>Account Status:<br><span id="acct-stat" class="bad">Not Found</span></h1>
+                    <hr>
+                    <p>Address: <br><span id="acct-addr">None</span></p>
+                    <div class="columns">
+                        <div class="column"><p>QR Code:</p></div>
+                        <div class="column" style="margin-top:20px;margin-bottom:5px;">
+                            <span id="acct-qr">None</span>
+                        </div>
+                    </div>
+                    <p>Current Balance: <span id="acct-bal">-1</span></p>
+                </div>
+            </div>
+            <hr>
+            <span>Donate:<br>0x037c241Baf5Ba2fa395db0Befac185e4E6b6608f</span>
+        </div>
+        <script src="assets/js/jquery.js" type="text/javascript"></script>
+        <script src="assets/js/qrcode.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@0.19.0/dist/web3.min.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function(){
+                if (typeof web3 !== 'undefined') {
+                        window.web3 = new Web3(web3.currentProvider);
+                        $('#eth-stat').text('Connected').attr('class', 'great');
+                        $('#web3-enabled').text('True').attr('class', 'great');
+                        $('#web3-stat').text('Limited').attr('class', 'good');
+                        if(web3.currentProvider.isMetaMask === true) {
+                            $('#web3-prov').text('MetaMask').attr('class', 'underline');
+                            $('#web3-stat').text('Good').attr('class', 'good');
+                            if(typeof web3.eth.defaultAccount === 'undefined') {
+                                $('#acct-stat').text('Not Signed In').attr('class', 'good');
+                            } else {
+                                $('#acct-stat').text('Signed In').attr('class', 'great');
+                                $('#acct-addr').text(web3.eth.defaultAccount).attr('class', 'underline normal-size');
+                                $('#acct-qr').text('');
+                                $('#web3-stat').text('Great').attr('class', 'great');
+                                new QRCode(document.getElementById("acct-qr"),{
+                                    text: web3.eth.defaultAccount,
+                                    width: 128,
+                                    height: 128,
+                                    colorDark : "#363636",
+                                    colorLight : "#eeeeee",
+                                    correctLevel : QRCode.CorrectLevel.H
+                                });
+                                web3.eth.getBalance(web3.eth.defaultAccount, function(err, result){
+                                    if(!err){
+                                        $('#acct-bal').attr('class', 'underline').text(web3.fromWei(result.toNumber(), 'ether') + ' ETH');
+                                    }
+                                });
+                            }
+                        } else {
+                            $('#web3-prov').text('Unknown');
+                        }
+                    } else {
+                        // No web3
+                    }
+                });
+        </script>
+    </body>
+</html>
