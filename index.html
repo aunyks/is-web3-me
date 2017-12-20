@@ -146,13 +146,13 @@
                                 });
                             }
                         } else {
-                            if(window.web3.currentProvider.constructor.name === "EthereumProvider"){        
+                            if(web3.currentProvider.constructor.name === "EthereumProvider"){        
                                 $('#web3-prov').text('Mist').attr('class', 'underline');
-                            }else if(window.web3.currentProvider.constructor.name === "o")  {    
+                            }else if(web3.currentProvider.constructor.name === "o")  {    
                                 $('#web3-prov').text('Parity').attr('class', 'underline');
-                            }else if(window.web3.currentProvider.host.indexOf("infura") !== -1){
+                            }else if(web3.currentProvider.host.indexOf("infura") !== -1){
                                 $('#web3-prov').text('Infura').attr('class', 'underline');
-                            }else if(window.web3.currentProvider.host.indexOf("localhost") !== -1){  
+                            }else if(web3.currentProvider.host.indexOf("localhost") !== -1){  
                                 $('#web3-prov').text('Localhost').attr('class', 'underline');
                             }else {
                                 $('#web3-prov').text('Unknown').attr('class', 'good');
