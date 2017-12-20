@@ -154,6 +154,7 @@
                                 });
                             }
                         } else {
+                            /*
                             if(web3.currentProvider.constructor.name === "EthereumProvider"){        
                                 $('#web3-prov').text('Mist').attr('class', 'underline');
                             }else if(web3.currentProvider.constructor.name === "o")  {    
@@ -166,6 +167,9 @@
                                 $('#web3-prov').text('Unknown').attr('class', 'good');
                                 $('#extra-msg').text('Unable to detect Web3 provider.');
                             }
+                            */
+                            $('#web3-prov').text('Unknown').attr('class', 'good');
+                            $('#extra-msg').text('Unable to detect Web3 provider.');
                             web3.eth.getAccounts(function(accounts){
                                 if(typeof accounts[0] === 'undefined') {
                                     $('#acct-stat').text('Not Signed In').attr('class', 'good');
