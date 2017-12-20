@@ -19,12 +19,7 @@
                 text-align: left;
                 color: #363636;
                 background: #eee;
-                text-overflow: ellipsis;
-                overflow-x: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
                 overflow-y: scroll;
-                display: block;
             }
             .navbar-item {
                 font-size: 1.5em;
@@ -47,6 +42,10 @@
             }
             #acct-qr {
                 font-size: 1.5em;
+            }
+            #extra-msg {
+                font-size: 1em;
+                word-wrap:break-word;
             }
             p {
                 font-size: 1.5em;
@@ -104,14 +103,17 @@
                 </div>
             </div>
             <hr>
-            <!--<h1>
-                Message<br>
+            <h1>
+                Message:<br>
                 <span id="extra-msg"></span>
             </h1>
-            <br>
-            <span>
-                Donate:<br>0x037c241Baf5Ba2fa395db0Befac185e4E6b6608f
-            </span>-->
+            <hr>
+            <footer>
+                <span>
+                    Made with love by <a href="http://aunyks.com" style="color:#363636;">aunyks</a>.<br>
+                    Donate:<br>0x037c241Baf5Ba2fa395db0Befac185e4E6b6608f
+                </span>
+            </footer>
         </div>
         <script src="assets/js/jquery.js" type="text/javascript"></script>
         <script src="assets/js/qrcode.js" type="text/javascript"></script>
@@ -127,9 +129,12 @@
                         if(web3.currentProvider.isMetaMask === true) {
                             $('#web3-prov').text('MetaMask').attr('class', 'underline');
                             $('#web3-stat').text('Good').attr('class', 'good');
+                            $('#extra-msg').text('Connected to the Ethereum network, but unable to locate default ETH account.');
                             if(typeof web3.eth.defaultAccount === 'undefined') {
                                 $('#acct-stat').text('Not Signed In').attr('class', 'good');
+                                $('#extra-msg').text('You must sign in to MetaMask before doing any Web3 actions.');
                             } else {
+                                $('#extra-msg').text('Connected to the Ethereum Network!');
                                 $('#acct-stat').text('Signed In').attr('class', 'great');
                                 $('#acct-addr').text(web3.eth.defaultAccount).attr('class', 'underline normal-size');
                                 $('#acct-qr').text('');
@@ -159,13 +164,15 @@
                                 $('#web3-prov').text('Localhost').attr('class', 'underline');
                             }else {
                                 $('#web3-prov').text('Unknown').attr('class', 'good');
+                                $('#extra-msg').text('Unable to detect Web3 provider.');
                             }
                             web3.eth.getAccounts(function(accounts){
                                 if(typeof accounts[0] === 'undefined') {
                                     $('#acct-stat').text('Not Signed In').attr('class', 'good');
+                                    $('#extra-msg').text($('#extra-msg').text() + ' Unable to locate default account.');
                                 } else {
                                     web3.eth.defaultAccount = accounts[0];
-                                    $('#web3-stat').text('Good').attr('class', 'good');
+                                    $('#extra-msg').text('Connected to the Ethereum Network!');
                                     $('#acct-stat').text('Signed In').attr('class', 'great');
                                     $('#acct-addr').text(web3.eth.defaultAccount).attr('class', 'underline normal-size');
                                     $('#acct-qr').text('');
